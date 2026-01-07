@@ -1,0 +1,19 @@
+logging:
+  level:
+    de.gematik: DEBUG
+
+retriever:
+  source-registry:
+    type: "PUBLIC"
+    url: "set dynamically in tests"
+    supply-chain-verification:
+      enabled: false
+      signature-san:
+      attestation-san:
+      signature-attestation-base-url:
+    gcp:
+      service-account-keyfile-path:
+  dependency-loading-enabled: false
+
+initial-retrieval:
+  packages: [ ]

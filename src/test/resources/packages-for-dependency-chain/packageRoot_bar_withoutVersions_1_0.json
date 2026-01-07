@@ -1,0 +1,81 @@
+{
+  "name": "rki.demis.bar",
+  "description": "DEMIS Antibiotic-resistance surveillance FHIR profile snapshot",
+  "dist-tags": {
+    "dev": "3.0.0"
+  },
+  "versions": {
+    "2.0.1": {
+      "_from": "file:rki.demis.bar-1.1.1.tgz",
+      "_id": "rki.demis.bar@1.1.1",
+      "_integrity": "sha512-xkuq+QLr0+dK5hhdCdVOlXYs634r0yz+D1E5w3aQaYQF+cUQzJZLw0XaxlbBEzZFlad6tpgYkG2+8Aqkxb1cQg==",
+      "_nodeVersion": "22.19.0",
+      "_npmVersion": "11.6.0",
+      "_resolved": "/home/jenkins/agent/workspace/DEMIS-ARS_Profile_Snapshots-Release/Fhir/rki.demis.bar-1.0.1.tgz",
+      "canonical": "https://demis.rki.de/fhir/demis",
+      "description": "DEMIS Antibiotic-resistance surveillance FHIR profile snapshot",
+      "dist": {
+        "integrity": "sha512-xkuq+QLr0+dK5hhdCdVOlXYs634r0yz+D1E5w3aQaYQF+cUQzJZLw0XaxlbBEzZFlad6tpgYkG2+8Aqkxb1cQg==",
+        "shasum": "a87b66ecd90b1bd9727d0721b2fbad418731dd7a",
+        "tarball": "https://europe-west3-npm.pkg.dev/gematik-demis-prod/fhir-packages/rki.demis.bar/-/rki.demis.bar-1.0.1.tgz"
+      },
+      "fhirVersions": [
+        "4.0.1"
+      ],
+      "name": "rki.demis.bar",
+      "readme": "ERROR: No README data found!",
+      "title": "DEMIS ARS Snapshot",
+      "version": "1.1.1"
+    },
+    "2.0.15": {
+      "_from": "file:rki.demis.bar-1.1.1-b21.tgz",
+      "_id": "rki.demis.bar@1.1.1-b21",
+      "_integrity": "sha512-KXtKNEIpSNuhK08ntOFKpZmAlwEfwBuxtx/EjC5Dq4Rwc8EgMefplUFhqcW05XuJRI6bwFnsT9pJKUXfz1lTdg==",
+      "_nodeVersion": "22.19.0",
+      "_npmVersion": "11.6.0",
+      "_resolved": "/home/jenkins/agent/workspace/IS-ARS_Profile_Snapshots-CI_main/Fhir/rki.demis.bar-1.0.15.tgz",
+      "canonical": "https://demis.rki.de/fhir/demis",
+      "description": "DEMIS Antibiotic-resistance surveillance FHIR profile snapshot",
+      "dist": {
+        "integrity": "sha512-KXtKNEIpSNuhK08ntOFKpZmAlwEfwBuxtx/EjC5Dq4Rwc8EgMefplUFhqcW05XuJRI6bwFnsT9pJKUXfz1lTdg==",
+        "shasum": "c89411e11a5a5bed5962e44a487311a5e5e05be2",
+        "tarball": "https://europe-west3-npm.pkg.dev/gematik-demis-prod/fhir-packages/rki.demis.bar/-/rki.demis.bar-1.0.15.tgz"
+      },
+      "fhirVersions": [
+        "4.0.1"
+      ],
+      "name": "rki.demis.bar",
+      "readme": "ERROR: No README data found!",
+      "title": "DEMIS ARS Snapshot",
+      "version": "1.1.1-b21"
+    },
+    "3.0.0": {
+      "_from": "file:rki.demis.bar.1.2.0-b19.tgz",
+      "_id": "rki.demis.bar@1.2.0-b19",
+      "_integrity": "sha512-6m/otNKOD2DK/4GRVXZ5QlDpGdbWVd9gQnYGpdo7KiPqSNANq1mkFhqtO1X0/BPL7CIbTC1ShIBd158R3AFGTg==",
+      "_nodeVersion": "22.17.1",
+      "_npmVersion": "11.5.2",
+      "_resolved": "/home/jenkins/agent/workspace/IS-ARS_Profile_Snapshots-CI_main/Fhir/rki.demis.bar.1.3.0.tgz",
+      "canonical": "https://demis.rki.de/fhir/demis",
+      "description": "DEMIS Antibiotic-resistance surveillance FHIR profile snapshot",
+      "dist": {
+        "integrity": "sha512-6m/otNKOD2DK/4GRVXZ5QlDpGdbWVd9gQnYGpdo7KiPqSNANq1mkFhqtO1X0/BPL7CIbTC1ShIBd158R3AFGTg==",
+        "shasum": "60fb4fd615f7e997d8e8549d3e1116acea588c84",
+        "tarball": "https://europe-west3-npm.pkg.dev/gematik-demis-prod/fhir-packages/rki.demis.bar/-/rki.demis.bar-1.3.0.tgz"
+      },
+      "fhirVersions": [
+        "4.0.1"
+      ],
+      "name": "rki.demis.bar",
+      "readme": "ERROR: No README data found!",
+      "title": "DEMIS ARS Snapshot",
+      "version": "1.2.0-b19"
+    }
+  },
+  "time": {
+    "2.0.1": "2025-07-15T04:56:31-07:00",
+    "2.0.15": "2025-08-15T04:32:56-07:00",
+    "3.0.0": "2025-09-22T05:38:47-07:00"
+  },
+  "_rev": "7a8218c2-1a0b-4e8e-9084-28e5635e1fe4"
+}

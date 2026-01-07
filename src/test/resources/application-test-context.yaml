@@ -1,0 +1,15 @@
+logging:
+  level:
+    de.gematik: DEBUG
+
+retriever:
+  source-registry:
+    type: "GCP_WITH_JSON_KEYFILE"
+    url: "https://europe-west3-npm.pkg.dev/gematik-demis-prod/fhir-packages"
+  supply-chain-verification:
+    enabled: false
+  gcp:
+    service-account-keyfile-path: "token will be mocked in tests"
+
+initial-retrieval:
+  packages: [ ]

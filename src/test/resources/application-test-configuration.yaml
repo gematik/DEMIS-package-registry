@@ -1,0 +1,22 @@
+logging:
+  level:
+    de.gematik: DEBUG
+
+retriever:
+  source-registry:
+    type: "GCP_WITH_JSON_KEYFILE"
+    url: "https://europe-west3-npm.pkg.dev/gematik-demis-prod/fhir-packages"
+  supply-chain-verification:
+    enabled: false
+  gcp:
+    service-account-keyfile-path: "fake/path/to/key.json"
+
+initial-retrieval:
+  packages:
+    - name: "rki.demis.notification-api"
+      versions:
+        - "5.3.1-beta.18"
+        - "5.3.1-beta.24"
+    - name: "rki.demis.ars"
+      versions:
+        - "1.2.0-beta.15"

@@ -1,0 +1,16 @@
+logging:
+  level:
+    de.gematik: DEBUG
+
+retriever:
+  source-registry:
+    type: "GCP_PUBLIC"
+    url: "set dynamically in tests"
+  supply-chain-verification:
+    enabled: true
+    signature-san: "fhir-packages-trust-dev@gematik-demis-prod.iam.gserviceaccount.com"
+    signature-attestation-base-url: "set dynamically in tests"
+  dependency-loading-enabled: false
+
+initial-retrieval:
+  packages: [ ]
