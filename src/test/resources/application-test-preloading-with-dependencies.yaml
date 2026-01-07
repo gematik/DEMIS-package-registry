@@ -1,0 +1,22 @@
+logging:
+  level:
+    de.gematik: DEBUG
+
+retriever:
+  source-registry:
+    type: "GCP_WITH_JSON_KEYFILE"
+    url: "set dynamically in tests"
+  supply-chain-verification:
+    enabled: false
+    signature-san: "fhir-packages-trust-dev@gematik-demis-prod.iam.gserviceaccount.com"
+    attestation-san: "fhir-packages-trust-dev@gematik-demis-prod.iam.gserviceaccount.com"
+    signature-attestation-base-url: "set dynamically in tests"
+  gcp:
+    service-account-keyfile-path: "gar is mocked in tests"
+  dependency-loading-enabled: true
+
+initial-retrieval:
+  packages:
+    - name: "packageABC"
+      versions:
+        - "1.2.3"

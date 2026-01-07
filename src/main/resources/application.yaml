@@ -1,0 +1,61 @@
+spring:
+  # Import Base Configuration
+  config:
+    import: classpath:/base-config-application.yaml
+  # Enable Spring Virtual Threads
+  threads:
+    virtual:
+      enabled: true
+
+# Set Base Properties
+base:
+  errorhandler:
+    enabled: false
+  feign:
+    extension:
+      enabled: false
+  logging:
+    request:
+      enabled: true
+  meter:
+    aspect:
+      enabled: false
+## Actuator Configuration
+management:
+  # Enable Exposing of Information over /actuator/info
+  info:
+    env:
+      enabled: true
+  observations:
+    key-values:
+      application: '@project.name@'
+  health:
+    livenessState:
+      enabled: true
+    readinessState:
+      enabled: true
+# Information for the /info Endpoint
+info:
+  app:
+    name: '@project.name@'
+    version: '@project.version@'
+
+# Environment variables are set in the deployment configuration
+retriever:
+  source-registry:
+    type: "${SOURCE_REGISTRY_TYPE}"
+    url: "${SOURCE_REGISTRY_URL}"
+  supply-chain-verification:
+    enabled: "${SUPPLY_CHAIN_VERIFICATION_ENABLED:true}"
+    # Subject Alternative Name (SAN) of the signing certificate used for signature and stage attestation
+    signature-san: "${SIGNATURE_SAN:fhir-packages-trust-dev@gematik-demis-prod.iam.gserviceaccount.com}"
+    attestation-san: "${ATTESTATION_SAN:}" # the stage will be deduced from the san
+    signature-attestation-base-url: "${SIGNATURE_ATTESTATION_URL:}"
+  gcp:
+    # Service account used to retrieve FHIR Packages (if source-registry is of type GCP_WITH_JSON_KEYFILE)
+    # and to retrieve validation material if supply-chain verification if enabled
+    service-account-keyfile-path: "${GCP_SA_KEYFILE_PATH:}"
+  dependency-loading-enabled: "${CONFIG_DEPENDENCY_LOADING_ENABLED:false}" # Set to true if package dependencies should be retrieved recursively
+
+initial-retrieval:
+  packages: [ ] # The packages are defined in the deployment configuration through indexed environment variables

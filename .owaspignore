@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd">
+
+<suppress until="2025-09-30">
+   <notes><![CDATA[
+     Suppressing CVE-2025-41242 for spring-core >=6.2.9
+     Reason: no patched Spring Boot release available yet.
+   ]]></notes>
+    <packageUrl regex="true">^pkg:maven/org.springframework/spring-core@.*$</packageUrl>
+    <vulnerabilityName>CVE-2025-41242</vulnerabilityName>
+</suppress>
+
+
+<suppress until="2025-10-15">
+   <notes><![CDATA[
+   file name: package-registry.jar: spring-core-6.2.10.jar
+   Reason: no patched Spring Boot release available yet and we dont use the problematic functionality.
+   ]]></notes>
+   <packageUrl regex="true">^pkg:maven/org\.springframework/spring-core@.*$</packageUrl>
+   <vulnerabilityName>CVE-2025-41249</vulnerabilityName>
+</suppress>
+
+</suppressions>
