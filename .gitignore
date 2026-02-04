@@ -37,7 +37,11 @@ build/
 
 # SBOM
 **/sbom_docker_image*/
+
+# MISC
 /docs/architecture-diagram.puml
+/http/
+/docs/api/.openapi-generator/
 
 jenkinsfiles
 

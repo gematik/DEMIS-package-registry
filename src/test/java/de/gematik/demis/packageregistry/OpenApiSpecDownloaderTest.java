@@ -1,8 +1,8 @@
-package de.gematik.demis.packageregistry.common;
+package de.gematik.demis.packageregistry;
 
 /*-
  * #%L
- * package-registry
+ * FHIR UI Data Model Translation Service
  * %%
  * Copyright (C) 2025 - 2026 gematik GmbH
  * %%
@@ -27,34 +27,9 @@ package de.gematik.demis.packageregistry.common;
  * #L%
  */
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.NotNull;
-import java.util.Map;
-import lombok.Builder;
-import lombok.Value;
+import de.gematik.demis.AbstractOpenApiSpecDownloaderTest;
+import org.springframework.test.context.ActiveProfiles;
 
-@Value
-@Builder
-public class FhirPackageOverviewDto {
-
-  @NotNull
-  @JsonProperty("_id")
-  String id;
-
-  @NotNull String name;
-
-  @NotNull
-  @JsonProperty("dist-tags")
-  Map<String, String> distTags;
-
-  @NotNull Map<String, FhirPackageVersion> versions;
-
-  public record FhirPackageVersion(
-      @NotNull String name,
-      @NotNull String version,
-      @NotNull Dist dist,
-      @JsonInclude(JsonInclude.Include.NON_NULL) Map<String, String> dependencies) {}
-
-  public record Dist(@NotNull String tarball) {}
-}
+/** This test class is responsible for downloading the openAPI specs as yaml under /target */
+@ActiveProfiles(profiles = "test-integration-public-registry")
+class OpenApiSpecDownloaderTest extends AbstractOpenApiSpecDownloaderTest {}
