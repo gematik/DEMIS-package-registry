@@ -52,16 +52,16 @@ Currently following source registries are supported and can be configured:
 
 The package-registry can be configured via environment variables.
 
-| Env Var / Type of source registry | Private Google Artifact Registry (GAR)             | Public Google Artifact Registry (GAR)              | Generic public npm registry   |
-|-----------------------------------|----------------------------------------------------|----------------------------------------------------|-------------------------------|
-| SOURCE_REGISTRY_TYPE              | GCP_WITH_JSON_KEYFILE                              | GCP_PUBLIC                                         | PUBLIC                        |
-| SOURCE_REGISTRY_URL               | required                                           | required                                           | required                      |
-| SUPPLY_CHAIN_VERIFICATION_ENABLED | true or false (default true)                       | true or false (default true)                       | not relevant                  |
-| SIGNATURE_SAN                     | required if SUPPLY_CHAIN_VERIFICATION_ENABLED true | required if SUPPLY_CHAIN_VERIFICATION_ENABLED true | not relevant                  |
-| ATTESTATION_SAN                   | required if SUPPLY_CHAIN_VERIFICATION_ENABLED true | not relevant                                       | not relevant                  |
-| SIGNATURE_ATTESTATION_URL         | required if SUPPLY_CHAIN_VERIFICATION_ENABLED true | required if SUPPLY_CHAIN_VERIFICATION_ENABLED true | not relevant                  |
-| GCP_SA_KEYFILE_PATH               | required                                           | not relevant                                       | not relevant                  |
-| CONFIG_DEPENDENCY_LOADING_ENABLED | true or false (default false)                      | true or false (default false)                      | true or false (default false) |
+| Environment Variable              | Description                                                                         | Private Google Artifact Registry (GAR)             | Public Google Artifact Registry (GAR)              | Generic public npm registry   |
+|-----------------------------------|-------------------------------------------------------------------------------------|----------------------------------------------------|----------------------------------------------------|-------------------------------|
+| SOURCE_REGISTRY_TYPE              | Defines the type of the source registry                                             | GCP_WITH_JSON_KEYFILE                              | GCP_PUBLIC                                         | PUBLIC                        |
+| SOURCE_REGISTRY_URL               | URL of the source registry                                                          | required                                           | required                                           | required                      |
+| SUPPLY_CHAIN_VERIFICATION_ENABLED | Whether supply chain verification should be performed                               | true or false (default true)                       | true or false (default true)                       | not relevant                  |
+| SIGNATURE_SAN                     | Subject Alternative Name of the certificate used for signature verification         | required if SUPPLY_CHAIN_VERIFICATION_ENABLED true | required if SUPPLY_CHAIN_VERIFICATION_ENABLED true | not relevant                  |
+| ATTESTATION_SAN                   | Subject Alternative Name of the certificate used for stage attestation verification | required if SUPPLY_CHAIN_VERIFICATION_ENABLED true | not relevant                                       | not relevant                  |
+| SIGNATURE_ATTESTATION_URL         | URL of the signature and stage attestation artifacts                                | required if SUPPLY_CHAIN_VERIFICATION_ENABLED true | required if SUPPLY_CHAIN_VERIFICATION_ENABLED true | not relevant                  |
+| GCP_SA_KEYFILE_PATH               | Path to the service account keyfile with access to the private GAR                  | required                                           | not relevant                                       | not relevant                  |
+| CONFIG_DEPENDENCY_LOADING_ENABLED | Enables recursive loading of package dependencies                                   | true or false (default false)                      | true or false (default false)                      | true or false (default false) |
 
 ### Release Notes
 

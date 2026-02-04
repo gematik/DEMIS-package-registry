@@ -2,6 +2,16 @@
 
 # Release notes
 
+## Release 1.0.3
+
+- activated openapi documentation generation
+- improved documentation
+- updated spring-parent to 2.14.20
+
+## Release 1.0.2
+
+- internal release adjustments
+
 ## Release 1.0.1
 
 - updated dependencies

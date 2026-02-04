@@ -1,4 +1,4 @@
-package de.gematik.demis.packageregistry.common;
+package de.gematik.demis.packageregistry;
 
 /*-
  * #%L
@@ -27,34 +27,9 @@ package de.gematik.demis.packageregistry.common;
  * #L%
  */
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.NotNull;
-import java.util.Map;
-import lombok.Builder;
-import lombok.Value;
+import de.gematik.demis.service.base.apidoc.EnableDefaultApiSpecConfig;
+import org.springframework.context.annotation.Configuration;
 
-@Value
-@Builder
-public class FhirPackageOverviewDto {
-
-  @NotNull
-  @JsonProperty("_id")
-  String id;
-
-  @NotNull String name;
-
-  @NotNull
-  @JsonProperty("dist-tags")
-  Map<String, String> distTags;
-
-  @NotNull Map<String, FhirPackageVersion> versions;
-
-  public record FhirPackageVersion(
-      @NotNull String name,
-      @NotNull String version,
-      @NotNull Dist dist,
-      @JsonInclude(JsonInclude.Include.NON_NULL) Map<String, String> dependencies) {}
-
-  public record Dist(@NotNull String tarball) {}
-}
+@Configuration
+@EnableDefaultApiSpecConfig
+public class PackageRegistryConfig {}
