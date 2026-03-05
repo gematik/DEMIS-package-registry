@@ -1,6 +1,0 @@
-apiVersion: v2
-name: package-registry-istio
-description: DEMIS package-registry Istio Configuration
-type: application
-version: 1.0.2
-appVersion: "1.0.2"

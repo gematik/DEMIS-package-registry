@@ -12,7 +12,7 @@
 
     <groupId>de.gematik.demis</groupId>
     <artifactId>package-registry</artifactId>
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.4-SNAPSHOT</version>
     <name>package-registry</name>
     <packaging>jar</packaging>
     <description>Service responsible for managing and distributing FHIR packages</description>
