@@ -35,32 +35,40 @@ cluster.
 
 ### Getting Started
 
-The package registry retrieves the FHIR packages from a source registry that can be configured. via environment
-variables.
+The package registry retrieves the FHIR packages from a source registry.
+Currently, the following source registries are supported and can be configured:
 
-gematik operates
-a [public Google Artifact Registry (GAR)](https://console.cloud.google.com/artifacts/npm/gematik-demis-public/europe-west3/fhir-packages)
-for FHIR packages that can be freely used as a source registry.
-Below is the configuration if you choose to do so:
+- Private Google Artifact Registry (GAR)
+    - authentication with service account key file
+    - supports supply chain validation (Cosign signature and stage validation)
+- Public Google Artifact Registry (GAR)
+    - no registration/authentication
+    - supports supply chain validation (Cosign signature only)
+- Generic public npm registry
+    - no registration/authentication
+    - no supply chain validation
 
-| Environment Variable              | Description                                                                 | Public gematik Google Artifact Registry (GAR)                                                                                   | 
-|-----------------------------------|-----------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------|
-| SOURCE_REGISTRY_TYPE              | Defines the type of the source registry                                     | GCP_PUBLIC                                                                                                                      | 
-| SOURCE_REGISTRY_URL               | URL of the source registry                                                  | https://europe-west3-npm.pkg.dev/gematik-demis-public/fhir-packages                                                             | 
-| SUPPLY_CHAIN_VERIFICATION_ENABLED | Whether signature verification should be performed                          | true or false (default true)                                                                                                    | 
-| SIGNATURE_SAN                     | Subject Alternative Name of the certificate used for signature verification | fhir-packages-writer@gematik-demis-public.iam.gserviceaccount.com                                                               |
-| SIGNATURE_ATTESTATION_URL         | URL of the signature artifacts                                              | https://artifactregistry.googleapis.com/download/v1/projects/gematik-demis-public/locations/europe-west3/repositories/npm-trust |
+#### Configuration
 
-Note: Both the URL to the FHIR packages and the URL to the signature artifacts point to Google Artifact Registry
-endpoints and are not intended for manual browsing, as Google Cloud Platform does not provide a public web UI for this
-purpose. FHIR packages can, however, be discovered and consumed using standard npm commands.
+The package-registry can be configured via environment variables.
 
-If you choose to use your own **public npm registry** as the source registry, you can configure it as follows:
+| Environment Variable              | Description                                                                         | Private Google Artifact Registry (GAR)             | Public Google Artifact Registry (GAR)              | Generic public npm registry   |
+|-----------------------------------|-------------------------------------------------------------------------------------|----------------------------------------------------|----------------------------------------------------|-------------------------------|
+| SOURCE_REGISTRY_TYPE              | Defines the type of the source registry                                             | GCP_WITH_JSON_KEYFILE                              | GCP_PUBLIC                                         | PUBLIC                        |
+| SOURCE_REGISTRY_URL               | URL of the source registry                                                          | required                                           | required                                           | required                      |
+| SUPPLY_CHAIN_VERIFICATION_ENABLED | Whether supply chain verification should be performed                               | true or false (default true)                       | true or false (default true)                       | not relevant                  |
+| SIGNATURE_SAN                     | Subject Alternative Name of the certificate used for signature verification         | required if SUPPLY_CHAIN_VERIFICATION_ENABLED true | required if SUPPLY_CHAIN_VERIFICATION_ENABLED true | not relevant                  |
+| ATTESTATION_SAN                   | Subject Alternative Name of the certificate used for stage attestation verification | required if SUPPLY_CHAIN_VERIFICATION_ENABLED true | not relevant                                       | not relevant                  |
+| SIGNATURE_ATTESTATION_URL         | URL of the signature and stage attestation artifacts                                | required if SUPPLY_CHAIN_VERIFICATION_ENABLED true | required if SUPPLY_CHAIN_VERIFICATION_ENABLED true | not relevant                  |
+| GCP_SA_KEYFILE_PATH               | Path to the service account keyfile with access to the private GAR                  | required                                           | not relevant                                       | not relevant                  |
+| CONFIG_DEPENDENCY_LOADING_ENABLED | Enables recursive loading of package dependencies                                   | true or false (default false)                      | true or false (default false)                      | true or false (default false) |
 
-| Environment Variable | Generic Public npm Registry            |
-|----------------------|----------------------------------------|
-| SOURCE_REGISTRY_TYPE | PUBLIC                                 |
-| SOURCE_REGISTRY_URL  | e.g. `https://packages.simplifier.net` |
+##### Default configuration
+
+The package registry is per default configured to work with our gematik private GAR. Most environment variables have
+default values, so that the registry can be started with minimal configuration.
+For each stage you only need to set explicitly the env var `ATTESTATION_SAN` and make sure the service account keyfile
+is made available in the cluster as a secret.
 
 ### Release Notes
 
@@ -78,7 +86,7 @@ The Project can be built with the following command:
 mvn clean install
 ```
 
-The Docker Image associated to the service can be built with the extra profile `docker`:
+The Docker image associated with the service can be built with the extra profile `docker`:
 
 ```sh
 mvn clean install -Pdocker

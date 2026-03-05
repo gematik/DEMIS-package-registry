@@ -1,23 +1,21 @@
 <div style="text-align:right"><img src="https://raw.githubusercontent.com/gematik/gematik.github.io/master/Gematik_Logo_Flag_With_Background.png" width="250" height="47" alt="gematik GmbH Logo"/> <br/> </div> <br/> 
 
 # Release notes
+## Release 1.0.4
+- Removed istio helm chart
 
 ## Release 1.0.3
-
 - activated openapi documentation generation
 - improved documentation
 - updated spring-parent to 2.14.20
 
 ## Release 1.0.2
-
 - internal release adjustments
 
 ## Release 1.0.1
-
 - updated dependencies
 
 ## Release 1.0.0
-
 - The Package Registry provides centralized access to FHIR packages for internal services
   within the Kubernetes cluster, simplifying package distribution and reducing redundant downloads from source
   registry.
