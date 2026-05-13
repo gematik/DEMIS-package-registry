@@ -30,13 +30,17 @@ package de.gematik.demis.packageregistry.common;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.util.Optional;
-import org.springframework.http.*;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.client.JdkClientHttpRequestFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.client.RestClientResponseException;
 
 @Component
+@Slf4j
 public class SpringRestClient {
 
   private final RestClient restClient = initializeRestClient();
@@ -69,6 +73,7 @@ public class SpringRestClient {
    * @param url the URL to fetch JSON from
    * @param responseType the class type to deserialize the JSON into
    * @param bearerToken null if no auth is needed
+   * @return an Optional containing the byte array if the request was successful, or empty if a 404
    */
   public <T> Optional<T> getJson(String url, Class<T> responseType, String bearerToken) {
     return executeRequest(url, bearerToken, MediaType.APPLICATION_JSON, responseType);
@@ -84,7 +89,8 @@ public class SpringRestClient {
       var result = requestSpec.retrieve().body(responseType);
       return Optional.ofNullable(result);
     } catch (RestClientResponseException e) {
-      if (e.getStatusCode().value() == 404) {
+      if (e.getStatusCode() == HttpStatus.NOT_FOUND) {
+        log.warn("HTTP request to {} returned 404 Not Found", url, e);
         return Optional.empty();
       }
       throw e;

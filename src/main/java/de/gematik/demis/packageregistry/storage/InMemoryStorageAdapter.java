@@ -31,13 +31,21 @@ import de.gematik.demis.packageregistry.core.PackageStoragePort;
 import de.gematik.demis.packageregistry.domain.FhirPackage;
 import de.gematik.demis.packageregistry.domain.PackageKey;
 import java.lang.module.ModuleDescriptor;
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 @Component
+@ConditionalOnProperty(
+    name = "feature.flag.pr-pkg-ttl",
+    havingValue = "false",
+    matchIfMissing = true)
 @RequiredArgsConstructor
 @Slf4j
 class InMemoryStorageAdapter implements PackageStoragePort {

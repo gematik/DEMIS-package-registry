@@ -1,7 +1,12 @@
 <div style="text-align:right"><img src="https://raw.githubusercontent.com/gematik/gematik.github.io/master/Gematik_Logo_Flag_With_Background.png" width="250" height="47" alt="gematik GmbH Logo"/> <br/> </div> <br/> 
 
 # Release notes
-## Release 1.0.4
+## Release 1.2.0
+- implemented time to live after last use for packages in RAM behind FEATURE_FLAG_PR_PKG_TTL
+- added additional logging for errors while loading packages
+
+## Release 1.1.0 
+- updated base-image and updated from java 21 to java 25
 - Removed istio helm chart
 
 ## Release 1.0.3

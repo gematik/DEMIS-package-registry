@@ -30,7 +30,7 @@ deploymentLabels: { }
 # If not given, the Entrypoint defined in Dockerfile will be used
 application:
   entrypoint: [ "java" ]
-  parameters: [ "-XX:ActiveProcessorCount=2", "-XX:MaxRAMPercentage=80.0", "-XX:+TieredCompilation", "-XX:+UseSerialGC", "-jar","/app.jar" ]
+  parameters: [ "-XX:ActiveProcessorCount=2", "-XX:MaxRAMPercentage=80.0", "-XX:+TieredCompilation", "-XX:+UseG1GC", "-jar","/app.jar" ]
 
 imagePullPolicy: IfNotPresent
 # Define Image Pull Secrets if using private registry
@@ -65,6 +65,10 @@ customEnvVars: {
   # ATTESTATION_SAN: must be set individually for each stage,
   SIGNATURE_ATTESTATION_URL: "https://artifactregistry.googleapis.com/download/v1/projects/gematik-demis-prod/locations/europe-west3/repositories/npm-trust",
   CONFIG_DEPENDENCY_LOADING_ENABLED: "false",
+  FEATURE_FLAG_PR_PKG_TTL: "false",
+  # In-Memory Cache settings, format: <duration><unit>, e.g. 1d, 12h, 30m, 45s
+  IN_MEMORY_CACHE_TTL_AFTER_USE: 1d,
+  IN_MEMORY_CACHE_CLEANER_CRON: "0 0 23 * * *",
 }
 
 # Pod Security Context - applies to all containers in a Pod
