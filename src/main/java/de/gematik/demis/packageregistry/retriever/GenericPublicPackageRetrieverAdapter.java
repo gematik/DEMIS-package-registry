@@ -58,6 +58,17 @@ final class GenericPublicPackageRetrieverAdapter extends AbstractNpmPackageRetri
     return getPackageOverview(packageKey.name())
         .map(overview -> overview.getVersions().get(packageKey.version()))
         .map(versionInfo -> versionInfo.dist().tarball())
-        .flatMap(url -> restClient.getBytes(url, null));
+        .flatMap(
+            url -> {
+              try {
+                return restClient.getBytes(url, null);
+              } catch (Exception e) {
+                throw new PackageRetrieverException(
+                    String.format(
+                        "Failed to load package %s@%s from %s",
+                        packageKey.name(), packageKey.version(), url),
+                    e);
+              }
+            });
   }
 }

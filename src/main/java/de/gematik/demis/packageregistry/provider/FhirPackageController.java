@@ -32,12 +32,15 @@ import de.gematik.demis.packageregistry.core.PackageNotFoundException;
 import de.gematik.demis.packageregistry.core.RegistryQueryService;
 import de.gematik.demis.packageregistry.domain.FhirPackage;
 import de.gematik.demis.packageregistry.domain.PackageKey;
+import de.gematik.demis.packageregistry.retriever.verification.SupplyChainVerificationException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.CompletionException;
+import java.util.concurrent.TimeoutException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.serializer.support.SerializationFailedException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -77,20 +80,68 @@ class FhirPackageController {
           registryQueryService
               .getPackageAsync(new PackageKey(packageName, packageVersion))
               .join(); // blocking is fine here bec we use virtual threads
+
+      if (pkg == null) {
+        log.warn("Package {}@{} not found", packageName, packageVersion);
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+      }
+
+      byte[] bytes = serializePackage(pkg, packageName, packageVersion, requestUri);
+      if (bytes == null) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+      }
+
       return ResponseEntity.ok()
           .header(
               HttpHeaders.CONTENT_DISPOSITION,
               "attachment; filename=\"" + buildPackageFilename(pkg) + "\"")
           .contentType(FHIR_NPM_MEDIA_TYPE)
-          .body(pkg.toBytes());
+          .body(bytes);
     } catch (Exception ex) {
-      Throwable cause = ex instanceof CompletionException ? ex.getCause() : ex;
-      log.warn("Request GET {} failed", requestUri, cause);
-      if (cause instanceof PackageNotFoundException) {
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
-      }
-      return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+      Throwable cause =
+          ex instanceof CompletionException && ex.getCause() != null ? ex.getCause() : ex;
+      return createErrorResponse(packageName, packageVersion, cause);
     }
+  }
+
+  private byte[] serializePackage(
+      FhirPackage pkg, String packageName, String packageVersion, String requestUri) {
+    try {
+      return pkg.toBytes();
+    } catch (Exception ex) {
+      throw new SerializationFailedException(
+          String.format(
+              "Error serializing package %s@%s for request %s",
+              packageName, packageVersion, requestUri),
+          ex);
+    }
+  }
+
+  private ResponseEntity<byte[]> createErrorResponse(
+      String packageName, String packageVersion, Throwable cause) {
+    return switch (cause) {
+      case PackageNotFoundException pnfe -> {
+        log.warn("Package not found: {}@{}", packageName, packageVersion, pnfe);
+        yield ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+      }
+      case SupplyChainVerificationException scve -> {
+        log.warn(
+            "Supply Chain Verification failed for package: {}@{}",
+            packageName,
+            packageVersion,
+            scve);
+        yield ResponseEntity.status(HttpStatus.BAD_GATEWAY).build();
+      }
+      case TimeoutException toe -> {
+        log.warn(
+            "Request timed out while retrieving package: {}@{}", packageName, packageVersion, toe);
+        yield ResponseEntity.status(HttpStatus.GATEWAY_TIMEOUT).build();
+      }
+      default -> {
+        log.error("Error retrieving package: {}@{}", packageName, packageVersion, cause);
+        yield ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+      }
+    };
   }
 
   @Operation(

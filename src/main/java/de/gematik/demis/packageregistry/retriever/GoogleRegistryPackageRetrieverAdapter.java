@@ -55,13 +55,14 @@ final class GoogleRegistryPackageRetrieverAdapter extends AbstractNpmPackageRetr
         "Requesting package {}@{} from remote source registry",
         packageKey.name(),
         packageKey.version());
+    String url = buildUrlForPackageFetch(packageKey.name(), packageKey.version());
     try {
-      return restClient.getBytes(
-          buildUrlForPackageFetch(packageKey.name(), packageKey.version()), getAuthToken());
+      return restClient.getBytes(url, getAuthToken());
 
     } catch (Exception e) {
       throw new PackageRetrieverException(
-          String.format("Failed to load package %s@%s", packageKey.name(), packageKey.version()),
+          String.format(
+              "Failed to load package %s@%s from %s", packageKey.name(), packageKey.version(), url),
           e);
     }
   }

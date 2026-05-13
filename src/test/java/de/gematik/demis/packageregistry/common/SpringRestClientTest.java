@@ -28,7 +28,8 @@ package de.gematik.demis.packageregistry.common;
  */
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.github.tomakehurst.wiremock.WireMockServer;
 import java.util.Optional;
@@ -36,17 +37,24 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.client.RestClientResponseException;
 
 class SpringRestClientTest {
 
+  private static final String TOKEN = "dummy-token";
+  private static final String PATH = "/foo/bar";
   private WireMockServer wireMockServer;
   private SpringRestClient springRestClient;
+  private String url;
 
   @BeforeEach
   void setup() {
     wireMockServer = new WireMockServer(0); // dynamic port
     wireMockServer.start();
     configureFor("localhost", wireMockServer.port());
+
+    url = "http://localhost:" + wireMockServer.port() + PATH;
 
     springRestClient = new SpringRestClient();
   }
@@ -57,20 +65,23 @@ class SpringRestClientTest {
   }
 
   @Test
-  void get_returnsEmptyOptional_when404() {
-    // Arrange
-    String token = "dummy-token";
-    String url = "http://localhost:" + wireMockServer.port() + "/foo/bar";
-
+  void getReturnsEmptyOptionalWhen404() {
     stubFor(
-        get(urlEqualTo("/foo/bar"))
-            .withHeader(HttpHeaders.AUTHORIZATION, equalTo("Bearer " + token))
-            .willReturn(aResponse().withStatus(404)));
+        get(urlEqualTo(PATH))
+            .withHeader(HttpHeaders.AUTHORIZATION, equalTo("Bearer " + TOKEN))
+            .willReturn(aResponse().withStatus(HttpStatus.NOT_FOUND.value())));
 
-    // Act
-    Optional<byte[]> result = springRestClient.getBytes(url, token);
+    final Optional<byte[]> result = springRestClient.getBytes(url, TOKEN);
 
-    // Assert
     assertTrue(result.isEmpty(), "Should return empty Optional when resource not found (404)");
+  }
+
+  @Test
+  void getThrowsExceptionWhenServerError() {
+    stubFor(
+        get(urlEqualTo(PATH))
+            .withHeader(HttpHeaders.AUTHORIZATION, equalTo("Bearer " + TOKEN))
+            .willReturn(aResponse().withStatus(HttpStatus.INTERNAL_SERVER_ERROR.value())));
+    assertThrows(RestClientResponseException.class, () -> springRestClient.getBytes(url, TOKEN));
   }
 }

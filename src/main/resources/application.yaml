@@ -59,3 +59,15 @@ retriever:
 
 initial-retrieval:
   packages: [ ] # The packages are defined in the deployment configuration through indexed environment variables
+
+## Feature flags
+feature:
+  flag:
+    pr-pkg-ttl: "${FEATURE_FLAG_PR_PKG_TTL:false}"
+
+# Gehört zum FF prPkgTtl
+in-memory-cache:
+  # ttl-after-use is Duration based, syntax: number + unit, e.g. 1d for 1 day, 12h for 12 hours, 30m for 30 minutes
+  ttl-after-use: "${IN_MEMORY_CACHE_TTL_AFTER_USE:1d}"
+  # cleaner-cron uses cron syntax: second, minute, hour, day of month, month, day of week
+  cleaner-cron: "${IN_MEMORY_CACHE_CLEANER_CRON:0 0 23 * * *}"
